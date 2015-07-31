@@ -25,9 +25,12 @@ var gulpSass = function gulpSass(options, sync) {
     if (file.isStream()) {
       return cb(new gutil.PluginError(PLUGIN_NAME, 'Streaming not supported'));
     }
-    if (path.basename(file.path).indexOf('_') === 0) {
-      return cb();
-    }
+    // This was making it very difficult to compile Minted UI fonts
+    // Instead, we opt to exclude files that start with _ in the scss matching globs
+    // when using gulp-sass
+    // if (path.basename(file.path).indexOf('_') === 0) {
+    //   return cb();
+    // }
     if (!file.contents.length) {
       file.path = gutil.replaceExtension(file.path, '.css');
       return cb(null, file);
